@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js')
 const Schema = require('../../Schemas/submitSchema.js')
 
 module.exports = {
@@ -24,6 +24,7 @@ module.exports = {
         const image = await interaction.options.getString('image-link')
         const canal = await client.channels.cache.get('1209539667930648677')
         const data = await Schema.findOne({ Topic: topic })
+        const voteChannel = await client.channels.cache.get('1208236913811783711')
 
         await interaction.deferReply({ ephemeral: true })
         if(!data) {
@@ -92,6 +93,59 @@ module.exports = {
         
                 await interaction.editReply({ content: 'Thanks for participating in our events! Your submission has been sent into the channel', ephemeral: true})
                 await canal.send({ embeds: [embed]})
+
+                const user1 = await interaction.guild.members.fetch(data.User1)
+                const user2 = await interaction.guild.members.fetch(data.User2)
+
+                const initialEmbed = new EmbedBuilder()
+                .setTitle(`# Style / Task: ${data.Topic}`)
+
+                const embed1 = new EmbedBuilder()
+                .setAuthor({ name: `${user1.user.username}`, iconURL: `${user1.user.avatarURL()}`})
+                .setColor('Random')
+                .setImage(`${data.User1Img}`)
+
+                const boton1 = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji('⬆️')
+                    .setLabel('0')
+                    .setCustomId('voteup')
+                )
+
+                const embed2 = new EmbedBuilder()
+                .setAuthor({ name: `${user2.user.username}`, iconURL: `${user2.user.avatarURL()}`})
+                .setColor('Random')
+                .setImage(`${data.User1Img}`)
+
+                const boton2 = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji('⬆️')
+                    .setLabel('0')
+                    .setCustomId('voteup')
+                )
+
+                const embed3 = new EmbedBuilder()
+                .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.avatarURL()}`})
+                .setColor('Random')
+                .setImage(`${image}`)
+
+                const boton3 = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji('⬆️')
+                    .setLabel('0')
+                    .setCustomId('voteup')
+                )
+
+                await voteChannel.send({ embeds: [initialEmbed]})
+                await voteChannel.send({ embeds: [embed1], components: [boton1] })
+                await voteChannel.send({ embeds: [embed2], components: [boton2] })
+                await voteChannel.send({ embeds: [embed3], components: [boton3] })
             }
         }
         
