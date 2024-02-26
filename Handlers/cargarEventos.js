@@ -25,7 +25,7 @@ function loadEvents(client) {
                     client.once(evento.name, (...args) => evento.execute(...args, client));
                 else client.on(evento.name, (...args) => evento.execute(...args, client));
             }
-            console.log(`[   ZEKROM-EVENTOS   ]`.underline.green + " --- Cargando  ".green + `  ${evento.name}`.green);
+            console.log(`[   DZN-EVENTOS   ]`.underline.green + " --- Cargando  ".green + `  ${evento.name}`.green);
         }   continue;
     }
 }

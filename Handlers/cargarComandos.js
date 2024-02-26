@@ -17,7 +17,7 @@ async function loadCommands(client) {
         client.commands.set(commandFile.data.name, commandFile);
   
         commandsArray.push(commandFile.data.toJSON());
-        console.log(`[   ZEKROM-COMANDOS  ]`.underline.cyan + " --- Cargando  ".cyan + `  ${commandFile.data.name}`.cyan);
+        console.log(`[   DZN-COMANDOS  ]`.underline.cyan + " --- Cargando  ".cyan + `  ${commandFile.data.name}`.cyan);
         await new Promise(resolve => setTimeout(resolve, 10)); // wait for 2 seconds
         continue;
       }

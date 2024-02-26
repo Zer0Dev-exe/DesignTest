@@ -13,7 +13,7 @@ module.exports = {
 
         
         await wait(3000);
-        await console.log(`[   ZEKROM-READY     ]`.underline.red + " --- Empezando ".red + `  ${client.user.tag}`.red);
+        await console.log(`[   DZN-READY     ]`.underline.red + " --- Empezando ".red + `  ${client.user.tag}`.red);
 
         mongoose.set('strictQuery', true)
 
@@ -23,7 +23,7 @@ module.exports = {
             useUnifiedTopology: true
         })
         if (mongoose.connect) {
-            console.log(`[   ZEKROM-MONGO     ]`.underline.yellow + " --- Corriendo  ".yellow + ` Base de Datos en Funcionamiento`.yellow);
+            console.log(`[   DZN-MONGO     ]`.underline.yellow + " --- Corriendo  ".yellow + ` Base de Datos en Funcionamiento`.yellow);
         }
         
         const activities = [
