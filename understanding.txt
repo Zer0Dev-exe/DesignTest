@@ -1,0 +1,2 @@
+Winner +20 points
+Looser -10 points

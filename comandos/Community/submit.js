@@ -35,6 +35,8 @@ module.exports = {
                 User1: interaction.user.id,
                 User1Img: image,
                 Group: 1,
+                Votes1: 0,
+                Votes2: 0,
             })
             const embed = new EmbedBuilder()
             .setColor('Random')
@@ -51,32 +53,12 @@ module.exports = {
         }
 
         if(data) {
+            //if(data.User1 === interaction.user.id) return interaction.editReply({ content: 'You have already sent with this topic'})
 
             if(data.Group == 1) {
 
                 data.User2 = interaction.user.id,
                 data.User2Img = image,
-                data.Group = data.Group + 1
-
-                await data.save()
-
-                const embed = new EmbedBuilder()
-                .setColor('Random')
-                .setTitle(`${interaction.user.displayName} has joined to the party!`)
-                .setThumbnail(interaction.user.avatarURL())
-                .addFields(
-                    { name: 'Topic:', value: `${topic}`}
-                )
-                .setDescription('Thanks for your submition, wait till someone is interested in same topic')
-                .setImage(image)
-        
-                await canal.send({ embeds: [embed]})
-                await interaction.editReply({ content: 'Thanks for participating in our events! Your submission has been sent into the channel', ephemeral: true})
-                
-            } else if(data.Group == 2) {
-
-                data.User3 = interaction.user.id,
-                data.User3Img = image,
                 data.Group = data.Group + 1
 
                 await data.save()
@@ -105,47 +87,34 @@ module.exports = {
                 .setColor('Random')
                 .setImage(`${data.User1Img}`)
 
-                const boton1 = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                    .setStyle(ButtonStyle.Secondary)
-                    .setEmoji('⬆️')
-                    .setLabel('0')
-                    .setCustomId('voteup')
-                )
-
                 const embed2 = new EmbedBuilder()
-                .setAuthor({ name: `${user2.user.username}`, iconURL: `${user2.user.avatarURL()}`})
-                .setColor('Random')
-                .setImage(`${data.User1Img}`)
-
-                const boton2 = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                    .setStyle(ButtonStyle.Secondary)
-                    .setEmoji('⬆️')
-                    .setLabel('0')
-                    .setCustomId('voteup')
-                )
-
-                const embed3 = new EmbedBuilder()
                 .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.avatarURL()}`})
                 .setColor('Random')
                 .setImage(`${image}`)
 
-                const boton3 = new ActionRowBuilder()
+                const embedFinal = new EmbedBuilder()
+                .setTitle('Vote for your favourite designer')
+
+                const botones = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
                     .setStyle(ButtonStyle.Secondary)
-                    .setEmoji('⬆️')
+                    .setEmoji('1️⃣')
                     .setLabel('0')
-                    .setCustomId('voteup')
+                    .setCustomId('vote-one')
                 )
-
-                await voteChannel.send({ embeds: [initialEmbed]})
-                await voteChannel.send({ embeds: [embed1], components: [boton1] })
-                await voteChannel.send({ embeds: [embed2], components: [boton2] })
-                await voteChannel.send({ embeds: [embed3], components: [boton3] })
+                .addComponents(
+                    new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji('2️⃣')
+                    .setLabel('0')
+                    .setCustomId('vote-two')
+                )
+                const msg = await voteChannel.send({ embeds: [initialEmbed, embed1, embed2, embedFinal], components: [botones]})
+                data.Message = msg.id
+                await data.save()
+            } else {
+                return;
             }
         }
         

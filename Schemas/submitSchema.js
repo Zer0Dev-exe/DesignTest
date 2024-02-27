@@ -7,8 +7,11 @@ let submitSchema = new Schema({
     User1Img: String,
     User2: String,
     User2Img: String,
-    User3: String,
-    User3Img: String,
+    Voters1: Array,
+    Votes1: Number,
+    Voters2: Array,
+    Votes2: Number,
+    Message: String,
     Group: Number,
 })
 

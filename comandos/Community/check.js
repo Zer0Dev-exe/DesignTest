@@ -17,6 +17,6 @@ module.exports = {
         const string = await interaction.options.getString('string')
         const data = await Schema.findOne({ Topic: string })
 
-        await interaction.reply({ content: `${data.Group} Participants `})
+        await interaction.reply({ content: `${data.Group} Participants, ${data.Message} Message ID `})
     }
 }
